@@ -5,12 +5,12 @@
 
 using Context = std::map<std::string, Function>;
 
-// We store real numbers as rationals so that upon calling format, we can simply print the rational number in the other format
+// We store real numbers as rationals so `FORMAT` can switch between the two representations
 union State {
     long long integer;
     Rational rational;
     Rational real;
-    Function function;
+    // Function function;
 };
 
 class Expression {

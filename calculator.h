@@ -10,6 +10,11 @@ public:
         std::cout << std::fixed << std::setprecision(dp_);
     }
 
+    auto run() -> void;
+
+    // Evaluate the current expression
+    auto evaluate(const std::string& line) -> const Expression&;
+
     // Reads a line of input until the newline character, parsing expressions as it goes
     friend auto operator>>(std::istream &is, Calculator &calculator) -> std::istream&;
 
