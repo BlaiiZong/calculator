@@ -116,5 +116,6 @@ d/dx ???
 - Support f\_{n}(x) notation (allows for recursive definitions)
 - Support vectors and matrices
 - Complex numbers
+  - can use matrix representation
 - Lazy rationals - store a list of prime factors and only evaluate when `operator<<` is called
   - expressions can be made up as a combination of Rational<Constant> \* Rational<Expression>

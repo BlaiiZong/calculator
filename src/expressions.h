@@ -10,6 +10,7 @@ union State {
     long long integer;
     Rational rational;
     Rational real;
+    long double decimal;
     // Function function;
 };
 
