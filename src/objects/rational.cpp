@@ -19,10 +19,19 @@ Rational::Rational(ll numerator, ll denominator)
 // which will make it an integer, and set that power of 10 as the denominator.
 //  e.g 3.14 = 314/100, since there are two digits after the decimal place.
 Rational::Rational(const std::string& expr) {
-	const auto decimal_places =
-	   expr.find('.') == std::string::npos ? 0 : expr.length() - 1 - expr.find('.');
+	auto decimal_places = std::size_t{0};
+	auto numerator = expr;
+	if (expr.find('.') != std::string::npos) {
+		decimal_places = expr.length() - 1 - expr.find('.');
+		numerator.erase(numerator.find('.'), 1);
+	}
+
 	denominator_ = (Rational{10} ^ decimal_places).numerator_;
-	numerator_ = static_cast<ll>(std::stold(expr) * denominator_);
+	try {
+		numerator_ = std::stoll(numerator);
+	} catch (const std::out_of_range& e) {
+		throw std::runtime_error{""};
+	}
 	simplify();
 }
 
