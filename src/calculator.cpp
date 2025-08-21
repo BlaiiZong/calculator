@@ -4,7 +4,6 @@ Calculator::Calculator(std::size_t precision, long long)
 : preans_(Expression{})
 , ans_(Expression{})
 , dp_(precision) {
-// , mod_(mod) {
 	std::cout << std::fixed << std::setprecision(static_cast<int>(dp_));
 }
 

@@ -2,8 +2,9 @@
 #include <iostream>
 
 class Rational {
-    using ll = long long;
-    using ull = unsigned long long;
+	using ll = long long;
+	using ull = unsigned long long;
+
 public:
 	// Default constructor - default value 0
 	Rational();
