@@ -1,6 +1,5 @@
 
 class Function {
 public:
-
 private:
 };
