@@ -7,6 +7,7 @@
 #include <vector>
 // #include "functions.h"
 #include "objects/rational.h"
+#include "operators/operator.h"
 
 // using Context = std::map<std::string, Function>;
 

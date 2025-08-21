@@ -97,13 +97,13 @@ d/dx ???
 
 ### Implementation
 
-1. Constant expressions
-2. Operators (binary, unary)
+1. Operators (binary, unary)
+   - use Operator abstract base class
    - whitespace precedence
-   - operator precedence
-3. variables
-4. functions
-5. built-in functions
+   - operator precedence - maintain a stack and walk through the expressions. Gobble from stack when completed.
+2. variables
+3. functions
+4. built-in functions
 
 ### Other ideas
 

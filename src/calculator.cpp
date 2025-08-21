@@ -13,8 +13,7 @@ auto Calculator::run() -> void {
 	std::cout << "Welcome to the command line calculator. Start typing to begin!\n";
 	std::cout << "> ";
 	while (std::getline(std::cin, line)) {
-		// Style choice: these constants only appear once so I'm using string
-		// literals
+		// Style choice: these constants only appear once so I'm using string literals
 		if (line == "quit") {
 			// quit the calculator
 			break;
@@ -22,6 +21,7 @@ auto Calculator::run() -> void {
 		else if (line == "ANS") {
 			// print ans_
 			std::cout << ans_;
+            preans_ = ans_;
 		}
 		else if (line == "PREANS") {
 			// print preans_
@@ -29,11 +29,11 @@ auto Calculator::run() -> void {
 			update_ans(std::move(preans_));
 		}
 		else if (line == "FMT" || line == "FORMAT") {
-			// Check if the previous answer was either rational or real, and print the
-			// answer in the other format
+			// Check if the previous answer was either rational or real, and print the answer in the
+			// other format
 			try {
 				std::cout << ans_.reformat();
-			} catch (const std::exception& e) {
+			} catch (const std::runtime_error& e) {
 				std::cerr << e.what();
 			}
 		}
@@ -41,9 +41,11 @@ auto Calculator::run() -> void {
 			// Parse the line as an expression, catching any errors that come up
 			try {
 				std::cout << evaluate(line);
-			} catch (const std::exception& e) {
+			} catch (const std::runtime_error& e) {
 				std::cerr << e.what();
-			}
+			} catch (const std::exception& e) {
+                std::cerr << "Unexpected error: " << e.what();
+            }
 		}
 
 		std::cout << "\n> ";

@@ -57,11 +57,11 @@ set(CMAKE_CXX_EXE_LINKER_FLAGS_RELWITHDEBINFO_INIT "-fsanitize=address,undefined
 add_library(rational src/objects/rational.cpp)
 target_link_libraries(rational)
 
-add_library(expressions src/expressions.cpp)
-target_link_libraries(expressions rational)
+add_library(expression src/expression.cpp)
+target_link_libraries(expression rational)
 
 add_library(calculator src/calculator.cpp)
-target_link_libraries(calculator expressions)
+target_link_libraries(calculator expression)
 
 add_executable(calculator_exe src/main.cpp)
 target_link_libraries(calculator_exe calculator)
