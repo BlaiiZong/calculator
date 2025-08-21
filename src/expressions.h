@@ -1,41 +1,85 @@
 #include <iostream>
+#include <iterator>
+#include <sstream>
+#include <stack>
 #include <string>
-#include "functions.h"
-#include "rational.h"
+#include <vector>
+// #include "functions.h"
+#include "objects/rational.h"
 
-using Context = std::map<std::string, Function>;
-
-// We store real numbers as rationals so `FORMAT` can switch between the two representations
-union State {
-    long long integer;
-    Rational rational;
-    Rational real;
-    long double decimal;
-    // Function function;
-};
+// using Context = std::map<std::string, Function>;
 
 class Expression {
-public:
-    Expression() {}
+    // We try to store expressions as high up the enum as we can, i.e. if possible, we store everything as integers.
+    // rational and rational_decimal are the same number, and only differ in ostream representation
+    //  rational is displayed in the standard fraction format, rational_decimal is displayed as a decimal number
+    enum State {
+        real,
+        rational,
+        rational_decimal,
+        // function
+    };
 
-    Expression(const std::string expr) {}
+    union Value {
+        long double real;
+        Rational rational;
+        // Function function;
+    };
+
+    const static std::vector<std::string> operators;
+
+public:
+    // Default constructor - default value 0
+    Expression();
+
+    // Custom string constructor
+    Expression(const std::string& expr, bool unspaced = false);
 
     // Copy constructor
-    Expression(const Expression &other) : expr_(other.expr_) {}
+    Expression(const Expression &other) = default;
 
     // Move constructor
-    Expression(Expression &&other) : expr_(std::exchange(other.expr_, expr_)) {}
+    Expression(Expression &&other) = default;
 
     // Copy assignment
-    auto operator=(const Expression &other) -> Expression&;
+    auto operator=(const Expression &other) -> Expression& = default;
     
     // Move assignment
-    auto operator=(Expression &&other) -> Expression&;
+    auto operator=(Expression &&other) -> Expression& = default;
+
+    // Destructor
+    ~Expression() = default;
+
+    // If state_ is rational or rational_decimal, switches state_ to the other format.
+    auto reformat() -> Expression&;
+
+    // Evaluate current expression
+    // expr_ will store the final answer
+    auto evaluate() -> Expression&;
 
     friend auto operator>>(std::istream &is, Expression &expr) -> std::istream&;
 
     friend auto operator<<(std::ostream &os, const Expression &expr) -> std::ostream&;
 
 private:
-State expr_;
+    // Custom value constructors
+    // Given a floating point number, initialises value_ as the given number
+    Expression(const long double value);
+    // Given a rational number, initialises value_ as the given number
+    Expression(const Rational value);
+
+    auto is_rational() const -> bool {
+        return state_ == State::rational || state_ == State::rational_decimal;
+    }
+
+    static auto is_operator(const std::string& op) -> bool {
+        return std::find(operators.begin(), operators.end(), op) != operators.end();
+    }
+
+    static auto tokenise(const std::string& expr, bool unspaced) -> std::vector<std::string>;
+
+    static auto parse_constant(const std::string& expr) -> Expression;
+
+    State state_;
+    Value value_;
 };

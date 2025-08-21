@@ -2,7 +2,7 @@
 
 A command line calculator for evaluating mathematical expressions, written in C++.
 This calculator is intended to be as intuitive as possible, that is, it will parse notation such as `a^x`, `|x|`, etc., as well as supporting custom functions.
-One important note to make is the [whitespace predence functionality](#whitespace-precendence), which allows you to forgo parentheses in some cases.
+One important note to make is the ["whitespace predence" functionality](#whitespace-precendence), which allows you to forgo parentheses in some cases.
 
 ## Usage
 

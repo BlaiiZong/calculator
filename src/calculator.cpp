@@ -1,5 +1,9 @@
 #include "calculator.h"
 
+Calculator::Calculator(std::size_t precision, long long mod) : preans_(Expression{}), ans_(Expression{}), dp_(precision), mod_(mod) {
+    std::cout << std::fixed << std::setprecision(dp_);
+}
+
 auto Calculator::run() -> void {
     std::string line;
 
@@ -10,33 +14,37 @@ auto Calculator::run() -> void {
         if (line == "quit") {
             // quit the calculator
             break;
-        } if (line == "ANS") {
+        } else if (line == "ANS") {
             // print ans_
-        } if (line == "PREANS") {
+            std::cout << ans_;
+        } else if (line == "PREANS") {
             // print preans_
-        } if (line == "FORMAT") {
+            std::cout << preans_;
+            update_ans(std::move(preans_));
+        } else if (line == "FMT" || line == "FORMAT") {
             // Check if the previous answer was either rational or real, and print the answer in the other format
-        } else {
-            // Parse the line as an expression, catch error on fail
             try {
-                std::cout << evaluate(line);
-            }
-            catch(const std::exception& e) {
+                std::cout << ans_.reformat();
+            } catch (const std::exception& e) {
                 std::cerr << e.what();
             }
-            
+        } else {
+            // Parse the line as an expression, catching any errors that come up
+            try {
+                std::cout << evaluate(line);
+            } catch (const std::exception& e) {
+                std::cerr << e.what();
+            }
         }
-        
+
         std::cout << "\n> ";
     }
 
     std::cout << "Goodbye!\n";
 }
 
+// parse `line` as an expression, and update the `ans_` variable as necessary
 auto Calculator::evaluate(const std::string& line) -> const Expression& {
-    // construct a new expression using Expression(line)
-    // evaluate expression, and update the `ans_` variable
-}
-
-auto operator>>(std::istream &is, Calculator &calculator) -> std::istream& {
+    update_ans(Expression{line});
+    return ans_;
 }
