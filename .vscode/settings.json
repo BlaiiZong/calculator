@@ -47,6 +47,7 @@
     "stdexcept": "cpp",
     "streambuf": "cpp",
     "string_view": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "regex": "cpp"
   }
 }

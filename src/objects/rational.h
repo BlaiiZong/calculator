@@ -46,7 +46,7 @@ public:
     friend auto operator<<(std::ostream& os, const Rational& rational) -> std::ostream&;
 
 private:
-    static auto gcd(unsigned long long a, unsigned long long b) -> unsigned long long;
+    static auto gcd(unsigned long long a, unsigned long long b) -> long long;
 
     // Simplify the rational number by dividing numerator and denominator by their greatest common divisor
     auto simplify() -> void;

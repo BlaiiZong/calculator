@@ -11,6 +11,8 @@ Rational::Rational(long long numerator, long long denominator) : numerator_(nume
     simplify();
 }
 
+// Given an potentially decimal number, multiply it by the smallest power of 10 which will make it an integer, and set that power of 10 as the denominator.
+//  e.g 3.14 = 314/100, since there are two digits after the decimal place.
 Rational::Rational(const std::string& expr) {
     const auto decimal_places = expr.find('.') == std::string::npos ? 0 : expr.length() - 1 - expr.find('.');
     denominator_ = (Rational{10}^decimal_places).numerator_;
@@ -35,7 +37,7 @@ auto operator<<(std::ostream& os, const Rational& rational) -> std::ostream& {
     return os;
 }
 
-auto Rational::gcd(unsigned long long a, unsigned long long b) -> unsigned long long {
+auto Rational::gcd(unsigned long long a, unsigned long long b) -> long long {
     if (a < b) std::swap(a, b);
     return b == 0 ? a : gcd(b, a % b);
 }

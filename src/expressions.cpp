@@ -92,13 +92,15 @@ auto operator<<(std::ostream &os, const Expression &expr) -> std::ostream& {
 // Try to parse the number as a Rational, and if that isn't possible (hopefully due to integer overflow),
 //  Try to parse the number as a long double
 auto Expression::parse_constant(const std::string& expr) -> Expression {
+    if (!std::regex_match(expr.begin(), expr.end(), std::regex{"-?\\d*(\\.\\d+)?"}))
+        throw std::runtime_error{"Invalid input: " + expr + " (expected a number)"};
     try {
         return Expression{Rational{expr}};
     } catch (const std::exception& e) {
         try {
             return Expression{std::stold(expr)};
         } catch (const std::exception& e) {
-            throw std::runtime_error{"Invalid input: " + expr};
+            throw std::runtime_error{"Invalid input: " + expr + " (expected a number)"};
         }
     }
 }
