@@ -14,16 +14,20 @@ class Expression {
     // rational and rational_decimal are the same number, and only differ in ostream representation
     //  rational is displayed in the standard fraction format, rational_decimal is displayed as a decimal number
     enum State {
-        real,
         rational,
         rational_decimal,
+        real,
         // function
     };
 
     union Value {
-        long double real;
         Rational rational;
+        long double real;
         // Function function;
+
+        Value() : rational(Rational{}) {}
+        Value(const Rational& value) : rational(value) {}
+        Value(const long double value) : real(value) {}
     };
 
     const static std::vector<std::string> operators;
@@ -63,10 +67,10 @@ public:
 
 private:
     // Custom value constructors
+    // Given a rational number, initialises value_ as the given number
+    Expression(const Rational& value);
     // Given a floating point number, initialises value_ as the given number
     Expression(const long double value);
-    // Given a rational number, initialises value_ as the given number
-    Expression(const Rational value);
 
     auto is_rational() const -> bool {
         return state_ == State::rational || state_ == State::rational_decimal;

@@ -6,19 +6,16 @@ const std::vector<std::string> Expression::operators = {};
 /////////////////////////////////////////// Constructors ///////////////////////////////////////////
 
 // Default constructor
-Expression::Expression() : Expression{0} {}
+Expression::Expression() : Expression(Rational{}) {}
 
 // Value constructor
-Expression::Expression(const long double value) : state_(State::real), value_{value} {}
-Expression::Expression(const Rational value) : state_(State::rational), value_{0} {
-    value_.rational = value;
-}
+Expression::Expression(const Rational& value) : state_(State::rational), value_(value) {}
+Expression::Expression(const long double value) : state_(State::real), value_(value) {}
 
 // String constructor (given a line)
-Expression::Expression(const std::string& expr, bool unspaced) : value_{0} {
+Expression::Expression(const std::string& expr, bool unspaced) {
     // Let's just do integers and decimals only for now
-    state_ = State::real;
-    value_.real = std::stold(expr);
+    *this = parse_constant(expr);
     // const auto words = tokenise(expr, unspaced);
 
     // // Bad practice - but `calculator` catches this error and prints out the empty string
@@ -92,7 +89,16 @@ auto operator<<(std::ostream &os, const Expression &expr) -> std::ostream& {
 //     }
 // }
 
-// auto Expression::parse_constant(std::string& expr) -> Expression {
-//     const auto decimal_places = expr.find('.') == std::string::npos ? 0 : expr.length() - 1 - expr.find('.');
-//     "1.12"
-// }
+// Try to parse the number as a Rational, and if that isn't possible (hopefully due to integer overflow),
+//  Try to parse the number as a long double
+auto Expression::parse_constant(const std::string& expr) -> Expression {
+    try {
+        return Expression{Rational{expr}};
+    } catch (const std::exception& e) {
+        try {
+            return Expression{std::stold(expr)};
+        } catch (const std::exception& e) {
+            throw std::runtime_error{"Invalid input: " + expr};
+        }
+    }
+}
