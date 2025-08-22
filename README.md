@@ -97,13 +97,14 @@ d/dx ???
 
 ### Implementation
 
-1. Operators (binary, unary)
-   - use Operator abstract base class
-   - whitespace precedence
-   - operator precedence - maintain a stack and walk through the expressions. Gobble from stack when completed.
-2. variables
-3. functions
-4. built-in functions
+- command line options (for dp and maybe mod)
+- Operators (binary, unary)
+  - use Operator abstract base class
+  - whitespace precedence
+  - operator precedence - maintain a stack and walk through the expressions. Gobble from stack when completed.
+- variables
+- functions
+- built-in functions
 
 ### Other ideas
 

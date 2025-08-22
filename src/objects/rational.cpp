@@ -26,6 +26,7 @@ Rational::Rational(const std::string& expr) {
 		numerator.erase(numerator.find('.'), 1);
 	}
 
+	if (decimal_places > 18) throw std::runtime_error{""};
 	denominator_ = (Rational{10} ^ decimal_places).numerator_;
 	try {
 		numerator_ = std::stoll(numerator);
